@@ -40,13 +40,18 @@ Acceptance Criteria:
   2. List song recommendations
   3. Exit
   > 2
-  1. Elephant by Tame Impala HAPPY
-  2. Last Resort by Papa Roach ANGRY
-  3. Jolene by Dolly Parton SAD
-  > 2
+  What category would you like to see?
+  1. happy
+  2. sad
+  3. mellow
+  4. angry
+  > 1
+  1. Elephant by Tame Impala
+  2. Tangerine by Led Zeppelin
+  > 1
   What would you like to do:
   1. Edit recommendation
-  2.  Delete recommendation
+  2. Delete recommendation
   > 1
   Update song title? [y/n]
   > n
@@ -76,9 +81,14 @@ Acceptance Criteria:
   2. List song recommendations
   3. Exit
   > 2
-  1. Elephant by Tame Impala HAPPY
-  2. Last Resort by Papa Roach ANGRY
-  3. Jolene by Dolly Parton SAD
+  What category would you like to see?
+  1. happy
+  2. sad
+  3. mellow
+  4. angry
+  > 1
+  1. Elephant by Tame Impala
+  2. Tangerine by Led Zeppelin
   > 2
   What would you like to do:
   1. Edit recommendation
@@ -110,9 +120,15 @@ Otherwise:
   2. List song recommendations
   3. Exit
   > 2
-  1. Elephant by Tame Impala HAPPY
-  2. Last Resort by Papa Roach ANGRY
-  3. Jolene by Dolly Parton SAD
+  What category would you like to see?
+  1. happy
+  2. sad
+  3. mellow
+  4. angry
+  > 1
+  1. Elephant by Tame Impala
+  2. Tangerine by Led Zeppelin
+
 ```
 
 ## Getting a recommendation
