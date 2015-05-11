@@ -9,7 +9,7 @@ on the mood category.
 
 # Features
 
-## Adding an entry
+## Adding a song recommendation
 User is prompted with questions - to which they can type in their answer
 
 ```
@@ -35,7 +35,7 @@ Acceptance Criteria:
 * There are three questions asked
 
 
-## Editing an entry
+## Editing a song recommendation
 ```
   > ./mood_music manage
   1. Add song recommendation
@@ -46,8 +46,10 @@ Acceptance Criteria:
   2. Last Resort by Papa Roach HAPPY
   3. Jolene by Dolly Parton SAD
   > 2
-  Would you like to edit entry 2? [y/n]
-  > y
+  What would you like to do:
+  a. Edit recommendation
+  b.  Delete recommendation
+  > a
   Update song title? [y/n]
   > n
   Update song's artist? [y/n]
@@ -67,7 +69,7 @@ Acceptance Criteria:
 * When user lists entries and then enters the corresponding entry
   number, user is prompted about whether they want to edit
 
-## Deleting an entry
+## Deleting a song recommendation
 ```
   > ./mood_music manage
   1. Add song recommendation
@@ -78,17 +80,31 @@ Acceptance Criteria:
   2. Last Resort by Papa Roach ANGRY
   3. Jolene by Dolly Parton SAD
   > 2
-  Would you like to edit entry 2? [y/n]
-  > n
-  Would you like to delete entry 2? [y/n]
-  > y
+  What would you like to do:
+  a. Edit recommendation
+  b.  Delete recommendation
+  > b
   Your song recommendation has been deleted.
 ```
 * When user lists entries and then enters the corresponding entry
   number, user is prompted about whether they want to edit.  Upon a "no"
   answer, the user is prompted to delete entry.
 
-## Viewing user's data
+## Viewing list of song recommendations
+
+If no data/recommendations exist in database:
+
+```
+  > ./mood_music manage
+  1. Add song recommendation
+  2. List song recommendations
+  3. Exit
+  > 2
+  No recommendations found.
+  ```
+
+Otherwise:
+
 ```
   > ./mood_music manage
   1. Add song recommendation
@@ -96,7 +112,7 @@ Acceptance Criteria:
   3. Exit
   > 2
   1. Elephant by Tame Impala HAPPY
-  2. Last Resort by Papa Roach HAPPY
+  2. Last Resort by Papa Roach ANGRY
   3. Jolene by Dolly Parton SAD
 ```
 
@@ -109,7 +125,7 @@ Acceptance Criteria:
   3. mellow
   4. angry
   > 1
-  I recommend the song Elephant by Tame Impala.
+  I recommend the song Elephant by Tame Impala based on your happy mood.
 ```
 
 
