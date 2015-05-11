@@ -3,9 +3,9 @@
 NSS Cohort 8 Ruby capstone project
 
 # Project Vision
-This is a simple command line application that will track a user's
-physical and mental health on daily basis. The user can add/edit/delete
-entries.  A daily entry will consist of mood, sleep, and time spent exercising.
+This is a simple command line program written in Ruby.
+A user can input their mood and the program will recommend a song based
+on the mood category.
 
 # Features
 
@@ -13,7 +13,7 @@ entries.  A daily entry will consist of mood, sleep, and time spent exercising.
 User is prompted with questions - to which they can type in their answer
 
 ```
-  > ./health_tracker manage
+  > ./mood_music manage
   1. Add song recommendation
   2. List song recommendations
   3. Exit
@@ -37,9 +37,9 @@ Acceptance Criteria:
 
 ## Editing an entry
 ```
-  > ./health_tracker manage
-  1. Add health entry
-  2. List past entries
+  > ./mood_music manage
+  1. Add song recommendation
+  2. List song recommendations
   3. Exit
   > 2
   1. Elephant by Tame Impala HAPPY
@@ -69,9 +69,9 @@ Acceptance Criteria:
 
 ## Deleting an entry
 ```
-  > ./health_tracker manage
-  1. Add health entry
-  2. List past entries
+  > ./mood_music manage
+  1. Add song recommendation
+  2. List song recommendations
   3. Exit
   > 2
   1. Elephant by Tame Impala HAPPY
@@ -90,12 +90,26 @@ Acceptance Criteria:
 
 ## Viewing user's data
 ```
-  > ./health_tracker manage
-  1. Add health entry
-  2. List past entries
+  > ./mood_music manage
+  1. Add song recommendation
+  2. List song recommendations
   3. Exit
   > 2
   1. Elephant by Tame Impala HAPPY
   2. Last Resort by Papa Roach HAPPY
   3. Jolene by Dolly Parton SAD
 ```
+
+## Getting a recommendation
+```
+  > ./mood_music recommend
+  What is your mood today?
+  1. happy
+  2. sad
+  3. mellow
+  4. angry
+  > 1
+  I recommend the song Elephant by Tame Impala.
+```
+
+
