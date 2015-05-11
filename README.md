@@ -41,7 +41,7 @@ Acceptance Criteria:
   3. Exit
   > 2
   1. Elephant by Tame Impala HAPPY
-  2. Last Resort by Papa Roach HAPPY
+  2. Last Resort by Papa Roach ANGRY
   3. Jolene by Dolly Parton SAD
   > 2
   What would you like to do:
