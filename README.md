@@ -4,14 +4,12 @@ NSS Cohort 8 Ruby capstone project
 
 # Project Vision
 This is a simple command line program written in Ruby.
-A user can input their mood and the program will recommend a song based
-on the mood category.
+The program will recommend a song based
+on the mood category they choose.
 
 # Features
 
 ## Adding a song recommendation
-User is prompted with questions - to which they can type in their answer
-
 ```
   > ./mood_music manage
   1. Add song recommendation
@@ -47,9 +45,9 @@ Acceptance Criteria:
   3. Jolene by Dolly Parton SAD
   > 2
   What would you like to do:
-  a. Edit recommendation
-  b.  Delete recommendation
-  > a
+  1. Edit recommendation
+  2.  Delete recommendation
+  > 1
   Update song title? [y/n]
   > n
   Update song's artist? [y/n]
@@ -68,6 +66,8 @@ Acceptance Criteria:
 * Confirmation that entry has been edited successfully
 * When user lists entries and then enters the corresponding entry
   number, user is prompted about whether they want to edit
+* In edit mode, all 3 questions will be asked regardless of a yes/no
+  answer
 
 ## Deleting a song recommendation
 ```
@@ -81,15 +81,14 @@ Acceptance Criteria:
   3. Jolene by Dolly Parton SAD
   > 2
   What would you like to do:
-  a. Edit recommendation
-  b.  Delete recommendation
-  > b
+  1. Edit recommendation
+  2.  Delete recommendation
+  > 2
   Your song recommendation has been deleted.
 ```
 * When user lists entries and then enters the corresponding entry
-  number, user is prompted about whether they want to edit.  Upon a "no"
-  answer, the user is prompted to delete entry.
-
+  number, user is prompted with sub-menu asking whether they want to
+  edit or delete
 ## Viewing list of song recommendations
 
 If no data/recommendations exist in database:
@@ -128,4 +127,16 @@ Otherwise:
   I recommend the song Elephant by Tame Impala based on your happy mood.
 ```
 
+## User stories
+
+As a user I can select current mood and a song will be recommended to
+me.
+
+As a user I can get a listing of all songs currently in the database.
+
+As a user I can edit a song recommendation
+
+As a user I can delete a song from the database
+
+As a user I can create a new song recommendation
 
