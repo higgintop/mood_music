@@ -2,17 +2,8 @@ require_relative '../helper'
 
 class TestAddingARecommendation < Minitest::Test
 
-  def test_no_arguments_given
-    shell_output = ""
-    expected = ""
-    IO.popen('./mood_music', 'r+') do |pipe|
-      expected = "[Help] Run as: ./mood_music manage\n"
-      shell_output = pipe.read
-    end
-    assert_equal expected, shell_output
-  end
 
-  def test_manage_arg_given_then_exit
+  def test_add_song_happy_path
     shell_output = ""
     expected = ""
     IO.popen('./mood_music manage', 'r+') do |pipe|
@@ -21,12 +12,164 @@ class TestAddingARecommendation < Minitest::Test
 2. List song recommendations
 3. Exit
 EOS
-      pipe.puts "3"
-      expected << "Peace Out!\n"
-      pipe.close_write
-      shell_output = pipe.read
+    pipe.puts "1"
+    expected << "What is the song's title?\n"
+    pipe.puts "Elephant"
+    expected << "Who is artist of the song?\n"
+    pipe.puts "Tame Impala"
+    expected << <<EOS
+  How would you classify the feel of this song?
+  1. happy
+  2. sad
+  3. mellow
+  4. angry
+EOS
+    pipe.puts "1"
+    expected << "Your song recommendation has been saved.\n"
+    pipe.close_write
+    shell_output = pipe.read
     end
     assert_equal expected, shell_output
   end
+
+
+  def test_add_song_empty_song_title
+    shell_output = ""
+    expected = ""
+    IO.popen('./mood_music manage', 'r+') do |pipe|
+      expected = <<EOS
+1. Add song recommendation
+2. List song recommendations
+3. Exit
+EOS
+    pipe.puts "1"
+    expected << "What is the song's title?\n"
+    pipe.puts ""
+    expected << "What is the song's title?\n"
+    pipe.puts "Elephant"
+    expected << "Who is artist of the song?\n"
+    pipe.puts "Tame Impala"
+    expected << <<EOS
+  How would you classify the feel of this song?
+  1. happy
+  2. sad
+  3. mellow
+  4. angry
+EOS
+    pipe.puts "1"
+    expected << "Your song recommendation has been saved.\n"
+    pipe.close_write
+    shell_output = pipe.read
+    end
+    assert_equal expected, shell_output
+  end
+
+  def test_add_song_empty_artist
+    shell_output = ""
+    expected = ""
+    IO.popen('./mood_music manage', 'r+') do |pipe|
+      expected = <<EOS
+1. Add song recommendation
+2. List song recommendations
+3. Exit
+EOS
+    pipe.puts "1"
+    expected << "What is the song's title?\n"
+    pipe.puts "Elephant"
+    expected << "Who is artist of the song?\n"
+    pipe.puts ""
+    expected << "Who is artist of the song?\n"
+    pipe.puts "Tame Impala"
+    expected << <<EOS
+  How would you classify the feel of this song?
+  1. happy
+  2. sad
+  3. mellow
+  4. angry
+EOS
+    pipe.puts "1"
+    expected << "Your song recommendation has been saved.\n"
+    pipe.close_write
+    shell_output = pipe.read
+    end
+    assert_equal expected, shell_output
+  end
+
+  def test_add_song_invalid_mood_category
+    shell_output = ""
+    expected = ""
+    IO.popen('./mood_music manage', 'r+') do |pipe|
+      expected = <<EOS
+1. Add song recommendation
+2. List song recommendations
+3. Exit
+EOS
+    pipe.puts "1"
+    expected << "What is the song's title?\n"
+    pipe.puts "Elephant"
+    expected << "Who is artist of the song?\n"
+    pipe.puts "Tame Impala"
+    expected << <<EOS
+  How would you classify the feel of this song?
+  1. happy
+  2. sad
+  3. mellow
+  4. angry
+EOS
+    pipe.puts "5"
+    expected << <<EOS
+  How would you classify the feel of this song?
+  1. happy
+  2. sad
+  3. mellow
+  4. angry
+EOS
+    pipe.puts "1"
+    expected << "Your song recommendation has been saved.\n"
+    pipe.close_write
+    shell_output = pipe.read
+    end
+    assert_equal expected, shell_output
+  end
+
+  def test_add_song_empty_mood_category
+    shell_output = ""
+    expected = ""
+    IO.popen('./mood_music manage', 'r+') do |pipe|
+      expected = <<EOS
+1. Add song recommendation
+2. List song recommendations
+3. Exit
+EOS
+    pipe.puts "1"
+    expected << "What is the song's title?\n"
+    pipe.puts "Elephant"
+    expected << "Who is artist of the song?\n"
+    pipe.puts "Tame Impala"
+    expected << <<EOS
+  How would you classify the feel of this song?
+  1. happy
+  2. sad
+  3. mellow
+  4. angry
+EOS
+    pipe.puts ""
+    expected << <<EOS
+  How would you classify the feel of this song?
+  1. happy
+  2. sad
+  3. mellow
+  4. angry
+EOS
+    pipe.puts "1"
+    expected << "Your song recommendation has been saved.\n"
+    pipe.close_write
+    shell_output = pipe.read
+    end
+    assert_equal expected, shell_output
+  end
+
+
+
 end
 
