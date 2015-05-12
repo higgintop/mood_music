@@ -1,22 +1,24 @@
 #!/usr/bin/env ruby
 
 require 'highline/import'
+Dir["./app/**/*.rb"].each {|f| require f}
 
-menu_prompt= <<EOS
-1. Add song recommendation
-2. List song recommendations
-3. Exit
-EOS
+
+
 
 def print_error_message
   puts "[Help] Run as: ./mood_music manage"
 end
 
+def list_recommendations
+  say("No recommendations found.\n")
+end
 
 if ARGV[0].size == 1 and ARGV[0] == 'manage'
   choose do |menu|
+    recommendations_controller = RecommendationsController.new
     menu.choice('Add song recommendation') {say("")}
-    menu.choice('List song recommendations') {say("No recommendations found.")}
+    menu.choice('List song recommendations') {recommendations_controller.index}
     menu.choice('Exit') {say ("Peace Out!")}
    end
 elsif ARGV[0].size == 1 and ARGV[0] == 'recommend'
