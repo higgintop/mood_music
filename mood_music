@@ -8,29 +8,25 @@ menu_prompt= <<EOS
 3. Exit
 EOS
 
-def print_help_info
+def print_error_message
   puts "[Help] Run as: ./mood_music manage"
 end
 
 
-if ARGV.length == 1
-  if ARGV[0] == 'manage'
-    choose do |menu|
-      menu.choice('Add song recommendation') {say("")}
-      menu.choice('List song recommendations') {say("No recommendations found.")}
-      menu.choice('Exit') {say ("Peace Out!")}
-    end
-  elsif ARGV[0] == 'recommend'
-    puts "What is your mood today?"
-     choose do |menu|
-       menu.choice('happy') {say("so youre happy")}
-       menu.choice('sad') {say("so youre sad")}
-       menu.choice('mellow') {say ("so youre mellow")}
-       menu.choice('angry') {say ("so youre angry")}
-      end
-   else
-     print_help_info
+if ARGV[0].size == 1 and ARGV[0] == 'manage'
+  choose do |menu|
+    menu.choice('Add song recommendation') {say("")}
+    menu.choice('List song recommendations') {say("No recommendations found.")}
+    menu.choice('Exit') {say ("Peace Out!")}
    end
+elsif ARGV[0].size == 1 and ARGV[0] == 'recommend'
+  puts "What is your mood today?"
+  choose do |menu|
+    menu.choice('happy') {say("so youre happy")}
+    menu.choice('sad') {say("so youre sad")}
+    menu.choice('mellow') {say ("so youre mellow")}
+    menu.choice('angry') {say ("so youre angry")}
+  end
 else
-  print_help_info
+  print_error_message
 end
