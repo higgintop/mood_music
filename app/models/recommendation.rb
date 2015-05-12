@@ -1,4 +1,11 @@
+
+
+# this is the model
+
 class Recommendation
-  # this is model
+  # class method count
+  def self.count
+    Database.execute("SELECT count(*) FROM recommendations")[0][0]
+  end
 
 end

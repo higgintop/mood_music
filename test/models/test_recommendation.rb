@@ -28,8 +28,8 @@ describe Recommendation do
         assert_equal expected, actual
       end
     end
-
   end
+  
   # Rec#count
   describe "count" do
     describe "if there are no recs in database" do
@@ -49,6 +49,5 @@ describe Recommendation do
         assert_equal 3, Recommendation.count
       end
     end
-
   end
 end
