@@ -18,21 +18,28 @@ def list_mood_categories
     sub_menu.prompt=""
     recommendations_controller = RecommendationsController.new
     puts "What category would you like to see?"
-    sub_menu.choice('happy') {recommendations_controller.index}
-    sub_menu.choice('sad') {recommendations_controller.index}
-    sub_menu.choice('mellow') {recommendations_controller.index}
-    sub_menu.choice('angry') {recommendations_controller.index}
+    sub_menu.choice('happy') {say(recommendations_controller.index)}
+    sub_menu.choice('sad') {say(recommendations_controller.index)}
+    sub_menu.choice('mellow') {say(recommendations_controller.index)}
+    sub_menu.choice('angry') {say(recommendations_controller.index)}
   end
 end
 
 if ARGV.size == 1 and ARGV[0] == 'manage'
-  choose do |menu|
-    menu.prompt = ""
-    #recommendations_controller = RecommendationsController.new
-    menu.choice('Add song recommendation') {say("")}
-    menu.choice('List song recommendations') {list_mood_categories}#recommendations_controller.index}
-    menu.choice('Exit') {say ("Peace Out!")}
-   end
+  loop do
+    choose do |menu|
+      menu.prompt = ""
+      menu.choice('Add song recommendation') {say("What is the song's title?")}
+      menu.choice('List song recommendations') do 
+        list_mood_categories
+        exit
+      end
+      menu.choice('Exit') do
+        say ("Peace Out!")
+        exit
+      end
+     end
+  end
 elsif ARGV.size == 1 and ARGV[0] == 'recommend'
   puts "What is your mood today?"
   choose do |menu|

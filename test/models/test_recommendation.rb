@@ -3,7 +3,7 @@ require_relative '../helper'
 describe Recommendation do
 
   # Rec#all
-  describe "all" do
+  describe "#all" do
     describe "if there are no recs in database" do
       it "should return an empty array" do
         assert_equal [], Recommendation.all
@@ -26,9 +26,9 @@ describe Recommendation do
       end
     end
   end
-  
+
   # Rec#count
-  describe "count" do
+  describe "#count" do
     describe "if there are no recs in database" do
       it "should return 0" do
         assert_equal 0, Recommendation.count

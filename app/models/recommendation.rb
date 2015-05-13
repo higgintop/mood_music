@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-# this is the model
+# this is the model - the model interacts with the sqlite db
 
 class Recommendation
 

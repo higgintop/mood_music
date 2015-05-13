@@ -7,11 +7,7 @@ class TestAddingARecommendation < Minitest::Test
     shell_output = ""
     expected = ""
     IO.popen('./mood_music manage', 'r+') do |pipe|
-      expected = <<EOS
-1. Add song recommendation
-2. List song recommendations
-3. Exit
-EOS
+      expected << main_menu
     pipe.puts "1"
     expected << "What is the song's title?\n"
     pipe.puts "Elephant"
@@ -26,6 +22,9 @@ EOS
 EOS
     pipe.puts "1"
     expected << "Your song recommendation has been saved.\n"
+    expected << main_menu
+    pipe.puts "3"
+    expected << "Peace Out!\n"
     pipe.close_write
     shell_output = pipe.read
     end
