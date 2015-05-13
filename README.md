@@ -7,6 +7,10 @@ This is a simple command line program written in Ruby.
 The program will recommend a song based
 on the mood category they choose.
 
+## Usage
+  * Run `rake bootstrap_database` to setup your local database
+  * Then , `./mood_music manage` to manage the list of song
+    recommendations
 # Features
 
 ## Adding a song recommendation

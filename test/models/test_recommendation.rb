@@ -1,9 +1,6 @@
 require_relative '../helper'
 
 describe Recommendation do
-  before do
-    setup_database
-  end
 
   # Rec#all
   describe "all" do

@@ -9,6 +9,8 @@ class TestListingRecommendations < Minitest::Test
     IO.popen('./mood_music manage', 'r+') do |pipe|
       expected << main_menu # this variable is defined in helper.rb
       pipe.puts "2" # list recommendations
+      expected << category_sub_menu
+      pipe.puts "1"
       expected << "No recommendations found.\n"
       pipe.close_write
       shell_output = pipe.read
@@ -17,63 +19,20 @@ class TestListingRecommendations < Minitest::Test
   end
 
   def test_listing_of_recommendations_happy_path
-    setup_database
-    create_recommendation("Elephant by Tame Impala") #dont have this
-    create_recommendation("Tangerine by Led Zeppelin") #dont have this
+    create_recommendation("Elephant by Tame Impala") # This should create rec in mood_music_test.sqlite
+    create_recommendation("Tangerine by Led Zeppelin")
     shell_output = ""
     expected = ""
     IO.popen('./mood_music manage', 'r+') do |pipe|
       expected << main_menu
       pipe.puts "2" # list recommendations
-      expected << <<EOS
-What category would you like to see?
-1. happy
-2. sad
-3. mellow
-4. angry
-EOS
+      expected << category_sub_menu
       pipe.puts "1"
-      expected << <<EOS
-1. Elephant by Tame Impala
-2. Tangerine by Led Zeppelin
-EOS
+      expected << "1. Elephant by Tame Impala\n"
+      expected << "2. Tangerine by Led Zeppelin\n"
       pipe.close_write
       shell_output = pipe.read
     end
     assert_equal expected, shell_output
   end
-
-
-  def test_listing_of_recommendations_invalid_choice
-    shell_output = ""
-    expected = ""
-    IO.popen('./mood_music manage', 'r+') do |pipe|
-      expected << main_menu
-      pipe.puts "2" # list recommendations
-      expected << <<EOS
-What category would you like to see?
-1. happy
-2. sad
-3. mellow
-4. angry
-EOS
-      pipe.puts "6"
-      expected << <<EOS
-What category would you like to see?
-1. happy
-2. sad
-3. mellow
-4. angry
-EOS
-      pipe.puts "1"
-      expected << <<EOS
-1. Elephant by Tame Impala
-2. Tangerine by Led Zeppelin
-EOS
-      pipe.close_write
-      shell_output = pipe.read
-    end
-    assert_equal expected, shell_output
-  end
-
 end

@@ -5,7 +5,7 @@ class TestBasicUsage < Minitest::Test
   def test_no_arguments_given
     shell_output = ""
     expected = ""
-    IO.popen('./mood_music', 'r+') do |pipe|
+    IO.popen('TEST=true ./mood_music', 'r+') do |pipe|
       expected = "[Help] Run as: ./mood_music manage\n"
       shell_output = pipe.read
     end
@@ -15,7 +15,7 @@ class TestBasicUsage < Minitest::Test
   def test_bad_single_argument_given
     shell_output = ""
     expected = ""
-    IO.popen('./mood_music bad_arg', 'r+') do |pipe|
+    IO.popen('TEST=true ./mood_music bad_arg', 'r+') do |pipe|
       expected = "[Help] Run as: ./mood_music manage\n"
       shell_output = pipe.read
     end
@@ -25,7 +25,7 @@ class TestBasicUsage < Minitest::Test
   def test_bad_multiple_argument_given
     shell_output = ""
     expected = ""
-    IO.popen('./mood_music bad_arg1 bad_arg2', 'r+') do |pipe|
+    IO.popen('TEST=true ./mood_music bad_arg1 bad_arg2', 'r+') do |pipe|
       expected = "[Help] Run as: ./mood_music manage\n"
       shell_output = pipe.read
     end
@@ -35,12 +35,8 @@ class TestBasicUsage < Minitest::Test
   def test_manage_arg_given_then_exit
     shell_output = ""
     expected = ""
-    IO.popen('./mood_music manage', 'r+') do |pipe|
-      expected = <<EOS
-1. Add song recommendation
-2. List song recommendations
-3. Exit
-EOS
+    IO.popen('TEST=true ./mood_music manage', 'r+') do |pipe|
+      expected << main_menu
       pipe.puts "3"
       expected << "Peace Out!\n"
       pipe.close_write
