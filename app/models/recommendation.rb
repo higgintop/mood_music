@@ -4,21 +4,70 @@
 
 class Recommendation
 
-  attr_accessor :name
+  attr_reader :id # should be able to read, but not able to set it!
+  attr_accessor :song_title, :artist, :mood_category
+  attr_reader :errors
+
+  # dont put all args in initialize - just have setter/getter for each
+  def initialize(song_title = nil)
+    self.song_title = song_title
+  end
 
   def self.all
+    db = Database.execute("SELECT song_title, artist FROM recommendations order by song_title ASC")
     # retrieve things in database and populate into an array
-    db = Database.execute("SELECT name FROM recommendations order by name ASC")
     db.map do |row|
       recommendation = Recommendation.new
-      recommendation.name = row[0]
+      recommendation.song_title = row[0]
+      recommendation.artist = row[1]
       recommendation
     end
+  end
+
+  def self.by_mood(category_index)
+    Database.execute("SELECT song_title, artist FROM recommendations WHERE mood_category=#{category_index.to_s}")
   end
 
   # class method count
   def self.count
     Database.execute("SELECT count(id) FROM recommendations")[0][0]
+  end
+
+  def song_title_valid?
+    if song_title.nil? or song_title.empty? or /^\d+$/.match(song_title)
+      @errors = "Song title invalid"
+      return false
+    else
+      @errors = nil
+      return true
+    end
+  end
+
+  def artist_valid?
+    if artist.nil? or artist.empty? or /^\d+$/.match(artist)
+      @errors = "Artist invalid"
+      return false
+    else
+      @errors = nil
+      return true
+    end
+  end
+
+
+  def mood_category_valid?
+    if mood_category.nil? or mood_category.to_i < 1 or mood_category.to_i > 4
+      @errors = "Mood category invalid"
+      return false
+    else
+      @errors = nil
+      return true
+    end
+  end
+
+  def save
+   return false unless (song_title_valid? and artist_valid? and mood_category_valid?)
+   Database.execute("INSERT INTO recommendations (song_title, artist, mood_category) VALUES (?,?,?)", song_title, artist, mood_category)
+   @id = Database.execute("SELECT last_insert_rowid()")[0]['last_insert_rowid()']
   end
 
 end

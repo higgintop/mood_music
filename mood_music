@@ -18,19 +18,59 @@ def list_mood_categories
     sub_menu.prompt=""
     recommendations_controller = RecommendationsController.new
     puts "What category would you like to see?"
-    sub_menu.choice('happy') {say(recommendations_controller.index)}
-    sub_menu.choice('sad') {say(recommendations_controller.index)}
-    sub_menu.choice('mellow') {say(recommendations_controller.index)}
-    sub_menu.choice('angry') {say(recommendations_controller.index)}
+    sub_menu.choice('happy') do
+      say(recommendations_controller.index(1))
+    end
+    sub_menu.choice('sad') do
+      say(recommendations_controller.index(2))
+    end
+    sub_menu.choice('mellow') do
+      say(recommendations_controller.index(3))
+    end
+    sub_menu.choice('angry') do
+      say(recommendations_controller.index(4))
+    end
   end
 end
+
 
 if ARGV.size == 1 and ARGV[0] == 'manage'
   loop do
     choose do |menu|
+      recommendations_controller = RecommendationsController.new
       menu.prompt = ""
-      menu.choice('Add song recommendation') {say("What is the song's title?")}
-      menu.choice('List song recommendations') do 
+      menu.choice('Add song recommendation') do
+        song_title = ""
+        artist = ""
+        mood_category = ""
+        loop do
+          song_title = ask("What is the song's title?")
+          song_response = recommendations_controller.add_song_title(song_title)
+          break if song_response
+        end
+
+        loop do
+          artist = ask("Who is the artist of the song?")
+          artist_response = recommendations_controller.add_artist(artist)
+          break if artist_response
+        end
+
+        loop do
+          mood_category = ask("How would you classify the feel of this song?\n1. happy\n2. sad\n3. mellow\n4. angry")
+          mood_response = recommendations_controller.add_mood_category(mood_category)
+          break if mood_response
+        end
+
+
+        # save
+        added_rec = recommendations_controller.add_row(song_title, artist, mood_category)
+        if added_rec == "valid"
+          puts "Your recommendation was successfully saved to the database"
+        else
+          puts "Your recommendation was not saved."
+        end
+      end
+      menu.choice('List song recommendations') do
         list_mood_categories
         exit
       end

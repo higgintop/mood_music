@@ -30,8 +30,8 @@ class Minitest::Test
 end
 
 
-def create_recommendation(name)
-  Database.execute("INSERT INTO recommendations (name) VALUES (?)", name)
+def create_recommendation(song_title, artist, mood_category)
+  Database.execute("INSERT INTO recommendations (song_title, artist, mood_category) VALUES (?,?,?)", song_title, artist, mood_category)
 end
 
 

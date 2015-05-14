@@ -19,8 +19,8 @@ class TestListingRecommendations < Minitest::Test
   end
 
   def test_listing_of_recommendations_happy_path
-    create_recommendation("Elephant by Tame Impala") # This should create rec in mood_music_test.sqlite
-    create_recommendation("Tangerine by Led Zeppelin")
+    create_recommendation("Elephant", "Tame Impala", "1") # This should create rec in mood_music_test.sqlite
+    create_recommendation("Tangerine", "Led Zeppelin", "1")
     shell_output = ""
     expected = ""
     IO.popen('./mood_music manage', 'r+') do |pipe|
