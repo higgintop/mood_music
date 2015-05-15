@@ -173,5 +173,109 @@ describe Recommendation do
      end
    end
 
-   # NOTE: Add valid test methods for mood and artist
+
+
+
+   describe ".artist_valid?" do
+     describe "with valid data" do
+       let(:recommendation) {Recommendation.new}
+       it "returns true" do
+         recommendation.artist = "test artist"
+         assert recommendation.artist_valid?
+       end
+       it "should set errors to nil" do
+         recommendation.artist = "test artist"
+         recommendation.artist_valid?
+         assert recommendation.errors.nil?
+       end
+     end
+
+     describe "with an empty artist" do
+       let(:recommendation) {Recommendation.new}
+       it "returns false" do
+         recommendation.artist = ""
+         refute recommendation.artist_valid?
+       end
+       it "sets the error message" do
+         recommendation.artist = ""
+         recommendation.artist_valid?
+         assert_equal "Artist invalid", recommendation.errors
+       end
+     end
+
+     describe "an artist with no letter characters" do
+       let(:recommendation) { Recommendation.new}
+       it "returns false" do
+         recommendation.artist = "777"
+         refute recommendation.artist_valid?
+       end
+       it "sets the error message" do
+         recommendation.artist = "777"
+         recommendation.artist_valid?
+         assert_equal "Artist invalid", recommendation.errors
+       end
+     end
+
+     describe "with previously invalid artist" do
+       let(:recommendation) {Recommendation.new}
+       before do
+         recommendation.artist = "777"
+         refute recommendation.artist_valid?
+         recommendation.artist = "Better Artist"
+       end
+       it "should return true" do
+         assert recommendation.artist_valid?
+       end
+       it "should not have an error message" do
+         recommendation.artist_valid?
+         assert_nil recommendation.errors
+       end
+     end
+   end
+
+
+
+      describe ".mood_category_valid?" do
+     describe "with valid data" do
+       let(:recommendation) {Recommendation.new}
+       it "returns true" do
+         recommendation.mood_category = "1"
+         assert recommendation.mood_category_valid?
+       end
+       it "should set errors to nil" do
+         recommendation.mood_category = "1"
+         recommendation.mood_category_valid?
+         assert recommendation.errors.nil?
+       end
+     end
+
+     describe "with an empty mood_category" do
+       let(:recommendation) {Recommendation.new}
+       it "returns false" do
+         recommendation.mood_category = ""
+         refute recommendation.mood_category_valid?
+       end
+       it "sets the error message" do
+         recommendation.mood_category = ""
+         recommendation.mood_category_valid?
+         assert_equal "Mood category invalid", recommendation.errors
+       end
+     end
+
+     describe "with previously invalid mood_category" do
+       let(:recommendation) {Recommendation.new}
+       before do
+         recommendation.mood_category = "777"
+         refute recommendation.mood_category_valid?
+         recommendation.mood_category = "1"
+       end
+       it "should return true" do
+         assert recommendation.mood_category_valid?
+       end
+       it "should not have an error message" do
+         recommendation.mood_category_valid?
+         assert_nil recommendation.errors
+       end
+     end
+   end
 end
