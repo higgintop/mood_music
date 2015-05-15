@@ -2,7 +2,7 @@ require_relative '../helper'
 
 class TestEditingARecommendation < Minitest::Test
 
-  def test_deleting_a_recommendation_happy_path_a
+  def test_editing_a_recommendation_happy_path_a
     shell_output = ""
     expected = ""
     IO.popen('./mood_music manage', 'r+') do |pipe|
@@ -54,7 +54,7 @@ EOS
 
 
 
-  def test_deleting_a_recommendation_happy_path_b
+  def test_editing_a_recommendation_happy_path_b
     shell_output = ""
     expected = ""
     IO.popen('./mood_music manage', 'r+') do |pipe|
@@ -99,7 +99,7 @@ EOS
   end
 
 
-  def test_deleting_a_recommendation_happy_path_c
+  def test_editing_a_recommendation_happy_path_c
     shell_output = ""
     expected = ""
     IO.popen('./mood_music manage', 'r+') do |pipe|
@@ -143,7 +143,7 @@ EOS
     assert_equal expected, shell_output
   end
 
-  def test_deleting_a_recommendation_happy_path_d
+  def test_editing_a_recommendation_happy_path_d
     shell_output = ""
     expected = ""
     IO.popen('./mood_music manage', 'r+') do |pipe|
