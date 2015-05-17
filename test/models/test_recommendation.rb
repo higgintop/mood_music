@@ -278,4 +278,24 @@ describe Recommendation do
        end
      end
    end
+
+   describe ".update" do
+     describe "edit previously entered recommendation" do
+       let(:recommendation){Recommendation.new}
+       let(:new_song_title){"New Song Title"}
+       it "should update the recommendation but not the id" do
+         recommendation.song_title = "Original Song Title"
+         recommendation.artist = "Original Artist Name"
+         recommendation.mood_category = "1"
+
+         recommendation.save # put in database
+         assert_equal 1, Recommendation.count
+         # now update
+         recommendation.update_song_title(recommendation.song_title, new_song_title)
+         last_row = Database.execute("SELECT * FROM recommendations WHERE song_title LIKE ?", "Original Song Title")[0]
+         assert_equal 1, Recommendation.count
+         assert_equal new_song_title, last_row['song_title']
+       end
+     end
+   end
 end

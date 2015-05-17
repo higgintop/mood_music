@@ -14,7 +14,7 @@ class Recommendation
   end
 
   def self.all
-    db = Database.execute("SELECT song_title, artist FROM recommendations order by song_title ASC")
+    db = Database.execute("SELECT song_title, artist, id FROM recommendations order by song_title ASC")
     # retrieve things in database and populate into an array
     db.map do |row|
       recommendation = Recommendation.new
@@ -25,7 +25,7 @@ class Recommendation
   end
 
   def self.by_mood(category_index)
-    Database.execute("SELECT song_title, artist FROM recommendations WHERE mood_category=#{category_index.to_s}")
+    Database.execute("SELECT song_title, artist, id FROM recommendations WHERE mood_category=#{category_index.to_s}")
   end
 
   # class method count
@@ -34,6 +34,7 @@ class Recommendation
   end
 
   def song_title_valid?
+    song_title.strip!
     if song_title.nil? or song_title.empty? or /^\d+$/.match(song_title)
       @errors = "Song title invalid"
       return false
@@ -44,6 +45,7 @@ class Recommendation
   end
 
   def artist_valid?
+    artist.strip!
     if artist.nil? or artist.empty? or /^\d+$/.match(artist)
       @errors = "Artist invalid"
       return false
@@ -68,6 +70,26 @@ class Recommendation
    return false unless (song_title_valid? and artist_valid? and mood_category_valid?)
    Database.execute("INSERT INTO recommendations (song_title, artist, mood_category) VALUES (?,?,?)", song_title, artist, mood_category)
    @id = Database.execute("SELECT last_insert_rowid()")[0]['last_insert_rowid()']
+  end
+
+  def update(selection_id)
+    puts "IN UPDATE IN MODEL with id = " + id.to_s
+    puts "IN UPDATE MODEL with selection id = " + selection_id.to_s
+    puts "WHat is the artist?" + artist.to_s
+    puts "what is song title?" + song_title.to_s
+
+    if song_title_valid?
+      Database.execute("UPDATE recommendations SET song_title=? WHERE id=?", song_title, selection_id)
+    end
+
+    if artist_valid?
+      Database.execute("UPDATE recommendations SET artist=? WHERE id=?", artist, selection_id)
+    end
+
+    if mood_category_valid?
+      Database.execute("UPDATE recommendations SET mood_category=? WHERE id=?", mood_category, selection_id)
+    end
+
   end
 
 end

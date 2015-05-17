@@ -20,6 +20,10 @@ def category_sub_menu
   "What category would you like to see?\n1. happy\n2. sad\n3. mellow\n4. angry\n"
 end
 
+def edit_delete_menu
+  "What would you like to do?\n1. edit\n2. delete\n3. exit\n"
+end
+
 # This is database for testing
 # Prepares database for a test to be run
 class Minitest::Test

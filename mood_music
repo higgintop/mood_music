@@ -13,6 +13,72 @@ def list_recommendations
   say("No recommendations found.\n")
 end
 
+
+def list_action_options(id)
+  choose do |menu|
+    menu.prompt = ""
+
+    menu.choice('edit')do
+      puts "THE ID IS ..." + id.to_s
+      recommendations_controller = RecommendationsController.new
+
+      new_song_title = ""
+      new_artist = ""
+      new_mood_category = ""
+      loop do
+        update_song_title = ask("YOU WANNA EDIT THE SONG TITLE?[y/n]").upcase
+        if update_song_title == 'Y'
+          loop do
+           new_song_title = ask("Please enter new song title:")
+           break if recommendations_controller.is_song_title_valid?(new_song_title)
+          end
+        end
+        break if update_song_title == 'Y' or update_song_title == 'N'
+      end
+
+      loop do
+        update_artist = ask("YOU WANNA EDIT THE ARTIST?[y/n]").upcase
+        if update_artist == 'Y'
+          loop do
+           new_artist = ask("Please enter new artist:")
+           break if recommendations_controller.is_artist_valid?(new_artist)
+          end
+        end
+        break if update_artist == 'Y' or update_artist == 'N'
+      end
+
+      loop do
+        update_mood_category = ask("YOU WANNA EDIT THE MOOD?[y/n]").upcase
+        if update_mood_category == 'Y'
+          loop do
+            new_mood_category = ask("Please enter new mood category:\n1. happy\n2. sad\n3. mellow\n4. angry")
+           break if recommendations_controller.is_mood_category_valid?(new_mood_category)
+          end
+        end
+        break if update_mood_category == 'Y' or update_mood_category == 'N'
+      end
+
+      # AT END DO THE UPDATE
+      puts "SONG TITLE?" + new_song_title
+      puts "ARTIST?" + new_artist
+      puts "MOOD?" + new_mood_category
+
+      # update unless all options are still blank
+      unless new_song_title.empty? and new_artist.empty? and new_mood_category.empty?
+        recommendations_controller.update_row(new_song_title, new_artist, new_mood_category, id)
+        puts "Your changes have been successfully saved."
+      else
+        puts "No changes made."
+      end
+      list_main_menu
+    end
+    menu.choice('delete')do
+
+    end
+    menu.choice('exit'){list_main_menu}
+  end
+end
+
 def list_mood_categories
   choose do |sub_menu|
     sub_menu.prompt=""
@@ -20,66 +86,123 @@ def list_mood_categories
     puts "What category would you like to see?"
     sub_menu.choice('happy') do
       say(recommendations_controller.index(1))
+      selection = nil
+      loop do
+        choice = ask("").to_i
+        selection = recommendations_controller.get_selection(1, choice)
+        if selection.nil?
+          puts "Try again!"
+        end
+        break if !selection.nil?
+      end
+
+      # at this point have a valid selection
+      puts "You picked  ... " + selection.to_s
+      list_action_options(selection['id'])
     end
     sub_menu.choice('sad') do
       say(recommendations_controller.index(2))
+      selection = nil
+      loop do
+        choice = ask("").to_i
+        selection = recommendations_controller.get_selection(2, choice)
+        if selection.nil?
+          puts "Try again!"
+        end
+        break if !selection.nil?
+      end
+
+      # at this point have a valid selection
+      puts "You picked  ... " + selection.to_s
+      list_action_options(selection['id'])
+
     end
     sub_menu.choice('mellow') do
       say(recommendations_controller.index(3))
+      selection = nil
+      loop do
+        choice = ask("").to_i
+        selection = recommendations_controller.get_selection(3, choice)
+        if selection.nil?
+          puts "Try again!"
+        end
+        break if !selection.nil?
+      end
+
+      # at this point have a valid selection
+      puts "You picked  ... " + selection.to_s
+      list_action_options(selection['id'])
+
     end
     sub_menu.choice('angry') do
       say(recommendations_controller.index(4))
+      selection = nil
+      loop do
+        choice = ask("").to_i
+        selection = recommendations_controller.get_selection(4, choice)
+        if selection.nil?
+          puts "Try again!"
+        end
+        break if !selection.nil?
+      end
+
+      # at this point have a valid selection
+      puts "You picked  ... " + selection.to_s
+      list_action_options(selection['id'])
+
+    end
+  end
+end
+
+def list_main_menu
+  choose do |menu|
+    recommendations_controller = RecommendationsController.new
+    menu.prompt = ""
+    menu.choice('Add song recommendation') do
+      song_title = ""
+      artist = ""
+      mood_category = ""
+      loop do
+        song_title = ask("What is the song's title?")
+        song_response = recommendations_controller.is_song_title_valid?(song_title)
+        break if song_response
+      end
+
+      loop do
+        artist = ask("Who is the artist of the song?")
+        artist_response = recommendations_controller.is_artist_valid?(artist)
+        break if artist_response
+      end
+
+      loop do
+        mood_category = ask("How would you classify the feel of this song?\n1. happy\n2. sad\n3. mellow\n4. angry")
+        mood_response = recommendations_controller.is_mood_category_valid?(mood_category)
+        break if mood_response
+      end
+
+
+      # save
+      added_rec = recommendations_controller.add_row(song_title, artist, mood_category)
+      if added_rec == "valid"
+        puts "Your recommendation was successfully saved to the database"
+      else
+        puts "Your recommendation was not saved."
+      end
+    end
+    menu.choice('List song recommendations') do
+      list_mood_categories
+      exit
+    end
+    menu.choice('Exit') do
+      say ("Peace Out!")
+      exit
     end
   end
 end
 
 
 if ARGV.size == 1 and ARGV[0] == 'manage'
-  loop do
-    choose do |menu|
-      recommendations_controller = RecommendationsController.new
-      menu.prompt = ""
-      menu.choice('Add song recommendation') do
-        song_title = ""
-        artist = ""
-        mood_category = ""
-        loop do
-          song_title = ask("What is the song's title?")
-          song_response = recommendations_controller.add_song_title(song_title)
-          break if song_response
-        end
-
-        loop do
-          artist = ask("Who is the artist of the song?")
-          artist_response = recommendations_controller.add_artist(artist)
-          break if artist_response
-        end
-
-        loop do
-          mood_category = ask("How would you classify the feel of this song?\n1. happy\n2. sad\n3. mellow\n4. angry")
-          mood_response = recommendations_controller.add_mood_category(mood_category)
-          break if mood_response
-        end
-
-
-        # save
-        added_rec = recommendations_controller.add_row(song_title, artist, mood_category)
-        if added_rec == "valid"
-          puts "Your recommendation was successfully saved to the database"
-        else
-          puts "Your recommendation was not saved."
-        end
-      end
-      menu.choice('List song recommendations') do
-        list_mood_categories
-        exit
-      end
-      menu.choice('Exit') do
-        say ("Peace Out!")
-        exit
-      end
-     end
-  end
+  list_main_menu
 elsif ARGV.size == 1 and ARGV[0] == 'recommend'
   puts "What is your mood today?"
   choose do |menu|

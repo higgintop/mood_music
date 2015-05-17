@@ -15,6 +15,15 @@ class RecommendationsController
     end
   end
 
+  def get_selection(category_index, user_selection)
+    if Recommendation.count > 0
+      recommendations = Recommendation.by_mood(category_index)
+      recommendations[user_selection-1]
+    else
+      nil
+    end
+  end
+
 
   def add_row(song_title, artist, mood_category)
     song_title_clean = song_title.strip
@@ -32,21 +41,36 @@ class RecommendationsController
     end
   end
 
-  def add_song_title(title)
-    title_clean = title.strip
+  def update_row(new_song_title, new_artist, new_mood_category, id)
+    song_title_clean = new_song_title.strip
+    artist_clean = new_artist.strip
+
     rec = Recommendation.new
-    rec.song_title = title_clean
+    rec.song_title = song_title_clean
+    rec.artist = artist_clean
+    rec.mood_category = new_mood_category.to_i
+
+    if rec.update(id)
+      return "valid"
+    else
+      rec.errors
+    end
+
+  end
+
+  def is_song_title_valid?(title)
+    rec = Recommendation.new
+    rec.song_title = title
     return rec.song_title_valid?
   end
 
-  def add_artist(artist)
-    artist_clean = artist.strip
+  def is_artist_valid?(artist)
     rec = Recommendation.new
-    rec.artist = artist_clean
+    rec.artist = artist
     return rec.artist_valid?
   end
 
-  def add_mood_category(mood_category)
+  def is_mood_category_valid?(mood_category)
     rec = Recommendation.new
     rec.mood_category = mood_category.to_i
     return rec.mood_category_valid?
