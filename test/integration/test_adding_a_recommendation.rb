@@ -54,6 +54,8 @@ EOS
       pipe.puts "1"
       expected << "Your recommendation was successfully saved to the database\n"
       expected << main_menu
+      pipe.puts "3"
+      expected << "Peace Out!\n"
       pipe.close_write
       shell_output = pipe.read
     end
@@ -86,6 +88,9 @@ EOS
     pipe.puts "1"
     expected << "Your recommendation was successfully saved to the database\n"
     expected << main_menu
+    pipe.puts "3"
+    expected << "Peace Out!\n"
+
     pipe.close_write
     shell_output = pipe.read
     end
@@ -124,6 +129,9 @@ EOS
     pipe.puts "1"
     expected << "Your recommendation was successfully saved to the database\n"
     expected << main_menu
+    pipe.puts "3"
+    expected << "Peace Out!\n"
+
     pipe.close_write
     shell_output = pipe.read
     end
@@ -162,6 +170,9 @@ EOS
     pipe.puts "1"
     expected << "Your recommendation was successfully saved to the database\n"
     expected << main_menu
+    pipe.puts "3"
+    expected << "Peace Out!\n"
+
     pipe.close_write
     shell_output = pipe.read
     end

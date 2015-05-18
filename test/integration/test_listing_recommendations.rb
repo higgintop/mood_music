@@ -12,6 +12,9 @@ class TestListingRecommendations < Minitest::Test
       expected << category_sub_menu
       pipe.puts "1"
       expected << "No recommendations found.\n"
+      expected << main_menu
+      pipe.puts "3"
+      expected << "Peace Out!\n"
       pipe.close_write
       shell_output = pipe.read
     end
@@ -19,7 +22,7 @@ class TestListingRecommendations < Minitest::Test
   end
 
   def test_listing_of_recommendations_happy_path
-    create_recommendation("Elephant", "Tame Impala", "1") # This should create rec in mood_music_test.sqlite
+    create_recommendation("Elephant", "Tame Impala", "1")
     create_recommendation("Tangerine", "Led Zeppelin", "1")
     shell_output = ""
     expected = ""

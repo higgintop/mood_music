@@ -28,6 +28,9 @@ class Recommendation
     Database.execute("SELECT song_title, artist, id FROM recommendations WHERE mood_category=#{category_index.to_s}")
   end
 
+  def self.count_by_mood(category_index)
+    Database.execute("SELECT count(id) FROM recommendations WHERE mood_category=?", category_index)[0][0]
+  end
   # class method count
   def self.count
     Database.execute("SELECT count(id) FROM recommendations")[0][0]
@@ -73,6 +76,11 @@ class Recommendation
   end
 
   def update(selection_id)
+    #puts "INSIDE THE UPDATE METHOD"
+    #puts "SONG TITLE IS ..." + song_title
+    #puts "ARTIST IS ..." + artist
+    #puts "MOOD CATEGORY IS ..." + mood_category.to_s
+
     if song_title_valid?
       Database.execute("UPDATE recommendations SET song_title=? WHERE id=?", song_title, selection_id)
     end

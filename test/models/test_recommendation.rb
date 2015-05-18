@@ -288,11 +288,13 @@ describe Recommendation do
          recommendation.artist = "Original Artist Name"
          recommendation.mood_category = "1"
 
-         recommendation.save # put in database
+         id = recommendation.save # put in database
          assert_equal 1, Recommendation.count
+
          # now update
-         recommendation.update_song_title(recommendation.song_title, new_song_title)
-         last_row = Database.execute("SELECT * FROM recommendations WHERE song_title LIKE ?", "Original Song Title")[0]
+         recommendation.song_title = "New Song Title"
+         recommendation.update(id)
+         last_row = Database.execute("SELECT * FROM recommendations WHERE song_title LIKE ?", "New Song Title")[0]
          assert_equal 1, Recommendation.count
          assert_equal new_song_title, last_row['song_title']
        end

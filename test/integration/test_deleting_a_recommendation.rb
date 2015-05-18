@@ -2,39 +2,27 @@ require_relative '../helper'
 
 class TestDeletingARecommendation < Minitest::Test
 
-
-    # NOTE: how to do expected part for database listing??
-    # For now, hard code results from database
     def test_deleting_a_recommendation_happy_path
+    create_recommendation("Elephant", "Tame Impala", 1)
+    create_recommendation("Tangerine", "Led Zeppelin", 1)
     shell_output = ""
     expected = ""
     IO.popen('./mood_music manage', 'r+') do |pipe|
-      expected = <<EOS
-1. Add song recommendation
-2. List song recommendations
-3. Exit
-EOS
-      pipe.puts "2"
-      expected << <<EOS
-What category would you like to see?
-1. happy
-2. sad
-3. mellow
-4. angry
-EOS
+      expected << main_menu
+      pipe.puts "2" #list recommendations
+      expected << category_sub_menu
       pipe.puts "1"
       expected << <<EOS
 1. Elephant by Tame Impala
 2. Tangerine by Led Zeppelin
 EOS
       pipe.puts "1"
-      expected << <<EOS
-What would you like to do:
-1. Edit recommendation
-2. Delete recommendation
-EOS
+      expected << edit_delete_menu
       pipe.puts "2"
-      expected << "Your song recommendation has been deleted."
+      expected << "Your song recommendation has been deleted.\n"
+      expected << main_menu
+      pipe.puts "3"
+      expected << "Peace Out!\n"
       pipe.close_write
       shell_output = pipe.read
     end
