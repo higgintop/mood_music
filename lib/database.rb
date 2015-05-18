@@ -20,6 +20,10 @@ class Database
       category varchar (150) NOT NULL
     );
     SQL
+    Database.execute("INSERT INTO moods(category) SELECT 'happy' WHERE NOT EXISTS(SELECT 1 FROM moods WHERE category='happy')");
+    Database.execute("INSERT INTO moods(category) SELECT 'sad' WHERE NOT EXISTS(SELECT 1 FROM moods WHERE category='sad')");
+    Database.execute("INSERT INTO moods(category) SELECT 'mellow' WHERE NOT EXISTS(SELECT 1 FROM moods WHERE category='mellow')");
+    Database.execute("INSERT INTO moods(category) SELECT 'angry' WHERE NOT EXISTS(SELECT 1 FROM moods WHERE category='angry')");
   end
 
   def self.execute(*args)
@@ -33,5 +37,4 @@ class Database
     @@db = SQLite3::Database.new(database)
     @@db.results_as_hash = true
   end
-
 end
