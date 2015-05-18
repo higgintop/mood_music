@@ -73,11 +73,6 @@ class Recommendation
   end
 
   def update(selection_id)
-    puts "IN UPDATE IN MODEL with id = " + id.to_s
-    puts "IN UPDATE MODEL with selection id = " + selection_id.to_s
-    puts "WHat is the artist?" + artist.to_s
-    puts "what is song title?" + song_title.to_s
-
     if song_title_valid?
       Database.execute("UPDATE recommendations SET song_title=? WHERE id=?", song_title, selection_id)
     end
@@ -89,7 +84,14 @@ class Recommendation
     if mood_category_valid?
       Database.execute("UPDATE recommendations SET mood_category=? WHERE id=?", mood_category, selection_id)
     end
+  end
 
+  def self.find_random_song(mood_id)
+    Database.execute("SELECT * FROM recommendations WHERE mood_category=? ORDER BY RANDOM() LIMIT 1", mood_id)[0]
+  end
+
+  def self.delete(id)
+    Database.execute("DELETE FROM recommendations WHERE id=?", id)
   end
 
 end

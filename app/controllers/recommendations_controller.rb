@@ -58,6 +58,10 @@ class RecommendationsController
 
   end
 
+  def delete_row(id)
+    Recommendation.delete(id)
+  end
+
   def is_song_title_valid?(title)
     rec = Recommendation.new
     rec.song_title = title

@@ -19,7 +19,6 @@ def list_action_options(id)
     menu.prompt = ""
 
     menu.choice('edit')do
-      puts "THE ID IS ..." + id.to_s
       recommendations_controller = RecommendationsController.new
 
       new_song_title = ""
@@ -58,11 +57,6 @@ def list_action_options(id)
         break if update_mood_category == 'Y' or update_mood_category == 'N'
       end
 
-      # AT END DO THE UPDATE
-      puts "SONG TITLE?" + new_song_title
-      puts "ARTIST?" + new_artist
-      puts "MOOD?" + new_mood_category
-
       # update unless all options are still blank
       unless new_song_title.empty? and new_artist.empty? and new_mood_category.empty?
         recommendations_controller.update_row(new_song_title, new_artist, new_mood_category, id)
@@ -73,6 +67,9 @@ def list_action_options(id)
       list_main_menu
     end
     menu.choice('delete')do
+      recommendations_controller = RecommendationsController.new
+      puts "want to delete where ID is .." + id.to_s
+      recommendations_controller.delete_row(id)
 
     end
     menu.choice('exit'){list_main_menu}
@@ -97,7 +94,6 @@ def list_mood_categories
       end
 
       # at this point have a valid selection
-      puts "You picked  ... " + selection.to_s
       list_action_options(selection['id'])
     end
     sub_menu.choice('sad') do
@@ -113,7 +109,6 @@ def list_mood_categories
       end
 
       # at this point have a valid selection
-      puts "You picked  ... " + selection.to_s
       list_action_options(selection['id'])
 
     end
@@ -130,7 +125,6 @@ def list_mood_categories
       end
 
       # at this point have a valid selection
-      puts "You picked  ... " + selection.to_s
       list_action_options(selection['id'])
 
     end
@@ -147,7 +141,6 @@ def list_mood_categories
       end
 
       # at this point have a valid selection
-      puts "You picked  ... " + selection.to_s
       list_action_options(selection['id'])
 
     end
@@ -207,10 +200,19 @@ elsif ARGV.size == 1 and ARGV[0] == 'recommend'
   puts "What is your mood today?"
   choose do |menu|
     menu.prompt = ""
-    menu.choice('happy') {say("so youre happy")}
-    menu.choice('sad') {say("so youre sad")}
-    menu.choice('mellow') {say ("so youre mellow")}
-    menu.choice('angry') {say ("so youre angry")}
+    mood_controller = MoodsController.new
+    menu.choice('happy') do
+      puts mood_controller.find_recommendation('happy')
+    end
+    menu.choice('sad') do
+      puts mood_controller.find_recommendation('sad')
+    end
+    menu.choice('mellow') do
+      puts mood_controller.find_recommendation('mellow')
+    end
+    menu.choice('angry') do
+      puts mood_controller.find_recommendation('angry')
+    end
   end
 else
   print_error_message
